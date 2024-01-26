@@ -1,1 +1,2 @@
-x,y,z= "Orange", "Banana", "Cherry"
+x=("apple", "banana", "cherry")
+print(type(x))

@@ -1,1 +1,2 @@
-x=y=z="Orange"
+x={"name": "John", "age": 36}
+print(type(x))
