@@ -1,2 +1,2 @@
-x=5.5
-x=int(x)
+if 5 > 2:
+  print("Five is greater than two!")
