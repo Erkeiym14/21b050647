@@ -19,7 +19,7 @@ font2 = pygame.font.SysFont("Verdana", 15)
 
 
 class Snake:
-    def __init__(self, x, y):
+    def __init__(self, x, y): #инициализация змейки 
         self.size = 1
         self.elements = [[x, y]]  # [[x0, y0], [x1, y1], [x2, y2] ...] (i) -> (i - 1)
         self.radius = 10
@@ -31,22 +31,22 @@ class Snake:
         self.score = 0
 
 
-    def draw(self):
+    def draw(self): # отрисовка змеи 
         for element in self.elements:
             pygame.draw.circle(screen, (255, 0, 0), element, self.radius)
 
 
-    def add_to_snake(self):
+    def add_to_snake(self): #увелечение длины змейки 
         self.size += 1
-        self.score += 1 #+1 to score if snace ate food
+        self.score += 1 
         self.elements.append([0, 0])
         self.is_add = False
-        if self.size % 5 == 0: #if snake ate more than 5 food its speed increases and it goes to the next level
+        if self.size % 5 == 0:  
             self.speed += 5
             self.level += 1
 
 
-    def move(self):
+    def move(self): #движение змейки 
         if self.is_add:
             self.add_to_snake()
 
@@ -58,7 +58,7 @@ class Snake:
         self.elements[0][1] += self.dy
 
 
-    def eat(self, foodx, foody):
+    def eat(self, foodx, foody): #проверка на поедание еды 
         x = self.elements[0][0]
         y = self.elements[0][1]
         if foodx <= x <= foodx + 10 and foody <= y <= foody + 10:
@@ -66,38 +66,38 @@ class Snake:
         return False
 
 
-class Food:
+class Food: 
     def __init__(self):
         self.x = random.randint(15, 790)
         self.y = random.randint(15, 790)
 
 
-    def gen(self):
+    def gen(self): #генерация новой позиций еды 
         self.x = random.randint(15, 790)
         self.y = random.randint(15, 790)
 
 
-    def draw(self):
+    def draw(self): #отрисовка еды 
         pygame.draw.ellipse(screen, (0, 255, 0), (self.x, self.y, 10, 10))
 
 
-class Block:
+class Block: 
     def __init__(self):
         self.x = random.randint(100, 700)
         self.y = random.randint(100, 700)
 
-    def draw(self):
+    def draw(self): #отрисовка блока 
         pygame.draw.rect(screen, (128, 128, 128), (self.x, self.y, 50, 100))    
 
 
-snake1 = Snake(100, 100)
-food = Food()
-block = Block()
+snake1 = Snake(100, 100) #создает обьект змейки с начальными координатами 
+food = Food() #обьект еды для змейки 
+block = Block() #создает обьект блока 
 
 running = True
 
-FPS = 30
-d = 5
+FPS = 30 #количество кадров в секунду 
+d = 5 #задает шаг змейки 
 
 clock = pygame.time.Clock()
 
@@ -130,15 +130,15 @@ while running:
     x = snake1.elements[0][0]
     y = snake1.elements[0][1]
 
-    #cheking gor the snake is leaving the playing area
+    #Проверка на выход за границы игровой области
     if x == 790 and 0 <= y <= 790 or x ==0 and 0<=y <=790 or y == 0 and 0<=x<=790 or y == 790 and 0<=x<=790:
         pygame.quit()  
 
-    #checking for block collusion
+    #Проверка на столкновение с блоком
     if block.x-10<= x <=block.x+60 and block.y-10<=y<=block.y+110:
         pygame.quit()  
 
-    #generating position of food, so that it doesn't fall on a wall or a snake    
+    #Генерация новой позиции для еды 
     if food.x == block.x or food.y == block.y:
         food.gen()    
 
@@ -148,7 +148,7 @@ while running:
     food.draw()
     block.draw()
 
-#shows score and level in the screen
+#Обновление отображения
     score = font2.render(f"Score:{snake1.score}", True, (255, 255, 255))
     level = font2.render(f'Level:{snake1.level}', True, (255, 255, 255))    
     screen.blit(score, (10, 10))
